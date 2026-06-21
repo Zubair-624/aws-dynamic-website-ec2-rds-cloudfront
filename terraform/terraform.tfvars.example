@@ -1,0 +1,11 @@
+#----------template values----------
+
+project_name = "your project name"
+aws_region = "aws region name"
+
+aws_vpc_cidr_block = "vpc resource block"
+
+azs = [ how many availability zone you want(az in list) ]
+
+public_subnet_cidrs = [ list of cidrs ]
+private_subnet_cidrs = [ list of cidrs ]
