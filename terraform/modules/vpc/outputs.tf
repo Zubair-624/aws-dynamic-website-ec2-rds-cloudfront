@@ -1,4 +1,4 @@
-#----------VPC ID Output----------
+#--------------------VPC ID Output--------------------
 output "main_vpc_id" {
 
     description = "ID of the vpc"
@@ -29,3 +29,4 @@ output "public_route_table_id" {
     value = aws_route_table.public_rt.id 
   
 }
+
