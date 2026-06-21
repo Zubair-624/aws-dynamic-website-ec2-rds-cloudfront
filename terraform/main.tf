@@ -18,9 +18,19 @@ module "ec2" {
   source = "./modules/ec2"
 
   project_name = var.project_name
-  
+
   main_vpc_id = module.vpc.main_vpc_id
 
   public_subnet_id = module.vpc.public_subnet_ids[0]
-  
+
+}
+
+#----------SSM Module (Secrets)----------
+module "ssm" {
+
+  source = "./modules/ssm"
+
+  # Simple - SSM module only needs project_name, nothing else, since it doesn't depend on VPC or EC2 at all.
+  project_name = var.project_name
+
 }

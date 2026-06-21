@@ -37,28 +37,28 @@ output "main_public_route_table_id" {
 output "aws_ami_id" {
 
   description = "AWS EC2 AMI (OS Image)"
-  value = module.ec2.aws_ami_id
-  
+  value       = module.ec2.aws_ami_id
+
 }
 
 #----------EC2 Instance ID----------
 output "aws_instance_id" {
 
   description = "Instance ID of the EC2"
-  value = module.ec2.aws_instance_id
-  
+  value       = module.ec2.aws_instance_id
+
 }
 
 #----------EC2 Security Group ID----------
 output "ec2_security_group_id" {
 
   value = module.ec2.ec2_security_group_id
-  
+
 }
 
 #----------EC2 Public IP (Elastic IP)----------
 output "ec2_public_ip" {
 
   value = module.ec2.ec2_public_ip
-  
+
 }
