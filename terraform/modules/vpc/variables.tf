@@ -18,13 +18,13 @@ variable "azs" {
 }
 
 #----------Public Subnet CIDR----------
-variable "public_subnet_cidrs" {
+variable "aws_vpc_public_subnet_cidrs" {
     description = "CIDR Block for the public subnet"
     type = list(string)
 }
 
 #----------Private Subnet CIDR----------
-variable "private_subnet_cidrs" {
+variable "aws_vpc_private_subnet_cidrs" {
     description = "CIDR Block for the private subnet"
     type = list(string)
 }
