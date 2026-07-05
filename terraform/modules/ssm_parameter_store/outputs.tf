@@ -15,7 +15,7 @@ output "output_db_username_arn" {
 #---DB Password---
 output "output_db_password_arn" {
 
-    value = aws_ssm_parameter.rds_db_password
+    value = aws_ssm_parameter.rds_db_password.arn
   
 }
 
