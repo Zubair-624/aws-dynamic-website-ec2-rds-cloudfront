@@ -41,7 +41,7 @@ resource "aws_eip" "ec2_eip" {
 resource "aws_instance" "main" {
 
     tags = {
-        Name = "${var.project_name}-web-server"
+        Name = "${var.project_name}-ec2-web-server"
     }
 
     # AMI (OS Image) - Ubuntu 24.04
@@ -53,12 +53,20 @@ resource "aws_instance" "main" {
 
     # Launch the EC2 instance in the public subnet
     # so it can receive traffic from the internet
-    subnet_id = var.public_subnet_id
+    subnet_id = var.fetch_output_aws_public_subnet_id
 
     # Attach the security group we created above
-    vpc_security_group_ids = [aws_security_group.ec2_sg.id]
+    # pull the -> ec2 sg
+    vpc_security_group_ids = [var.fetch_output_ec2_security_group_id]
+
+    # Configure storage: Box
+    root_block_device {
+      volume_size = 80
+      volume_type = "gp3"
+      encrypted = true 
+    }
 
     # Attach the IAM instance profile, so EC2 can talk to SSM and other AWS services
-    iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+    iam_instance_profile = var.fetch_output_ec2_iam_instance_profile
   
 }
