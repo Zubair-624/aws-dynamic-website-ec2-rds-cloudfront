@@ -13,7 +13,7 @@
 output "aws_s3_bucket_network_address" {
 
     description = "S3 REST endpoint used as CloudFront origin domain"
-    value = aws_s3_bucket.website.aws_s3_bucket_network_address
+    value = aws_s3_bucket.website.bucket_regional_domain_name
   
 }
 

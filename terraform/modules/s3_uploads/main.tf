@@ -1,28 +1,33 @@
-# General Configuration: Box
+#-----General Configuration: Box-----
 resource "aws_s3_bucket" "website" {
 
+
+    # Bucket namespace
     tags = {
-        Name = "${project_name}-s3-bucket"
+        Name = "${var.project_name}-s3-bucket"
     }
   
 }
 
-# Object Ownership: Box
+#-----Object Ownership: Box-----
 resource "aws_s3_bucket_ownership_controls" "website" {
 
     bucket = aws_s3_bucket.website.id
 
+    # Object Ownership
+    # select -> Bucket owner enforced (By default)
     rule {
       object_ownership = "BucketOwnerEnforced"
     }
   
 }
 
-# Block Public Access Settings for this bucket: Box
+#-----Block Public Access Settings for this bucket: Box-----
 resource "aws_s3_bucket_public_access_block" "website" {
 
     bucket = aws_s3_bucket.website.id
 
+    # Block all public access
     block_public_acls = true
     block_public_policy = true 
     ignore_public_acls = true
@@ -30,23 +35,47 @@ resource "aws_s3_bucket_public_access_block" "website" {
   
 }
 
+#-----------------------------------------
 #-----Click Button ---> Create Bucket-----
-
+#-----------------------------------------
 
 # After create the bucket
 # Now, upload the website
 locals {
-  websile_files = fileset("${path.module}/../website", "**")
+  website_file_path = fileset("${path.module}/../website", "**")
+  mime_types = {
+    ".html" = "text/html"
+    ".css"  = "text/css"
+    ".js"   = "application/javascript"
+    ".png"  = "image/png"
+    ".jpg"  = "image/jpeg"
+    ".ico"  = "image/x-icon"
+    ".json" = "application/json"
+  }
 }
+
 
 resource "aws_s3_object" "website_upload" {
 
     bucket = aws_s3_bucket.website.id
 
-    for_each = local.websile_files
-
+    #---
+    for_each = local.website_file_path
     key = each.value
     source = "${path.module}/../website/${each.value}"
+    #---
+
+    #---
+    content_type = lookup(
+        local.website_file_path,
+        regex("\\.[^.]+$", each.value),
+        "application/octel-stream"
+    )
+
+    storage_class = "Standard"
+
+    etag = filemd5("${path.module}/../website/${each.value}")
+    #---
   
 }
 
@@ -64,7 +93,7 @@ resource "aws_s3_bucket_policy" "website" {
                 Principal = {
                     Service = "cloudfront.amazonaws.com"
                 }
-                Action = "S3:GetObject"
+                Action = "s3:GetObject"
                 Resource = "${aws_s3_bucket.website.arn}/*"
                 Condition = {
                     StringEquals = {
