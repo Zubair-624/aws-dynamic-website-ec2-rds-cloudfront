@@ -14,3 +14,9 @@ output "output_cloudfront_domain_url" {
   
 }
 
+output "output_cloudfront_distribution_arn" {
+
+    value = aws_cloudfront_distribution.main.arn
+  
+}
+

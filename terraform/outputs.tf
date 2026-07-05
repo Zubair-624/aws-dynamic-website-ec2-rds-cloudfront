@@ -1,64 +1,153 @@
-#----------Root Level -> VPC ID Output----------
+#----------VPC ID----------
 
 # VPC CIDR Block
-output "main_vpc_id" {
+output "main_output_aws_vpc_id" {
 
-  description = "Main ID of the VPC"
-  value       = module.vpc.main_vpc_id
+  value       = module.vpc.output_aws_vpc_id
 
 }
 
 # Public Subnet IDs
-output "main_public_subnet_ids" {
+output "main_output_aws_vpc_public_subnet_ids" {
 
-  description = "Main Ids of the public subnet cidrs"
-  value       = module.vpc.public_subnet_ids
+  value       = module.vpc.output_aws_vpc_public_subnet_ids
 
 }
 
 # Private Subnet IDs
-output "main_private_subnet_ids" {
+output "main_output_aws_vpc_private_subnet_ids" {
 
-  description = "Main Ids of the private subnet cidrs"
-  value       = module.vpc.private_subnet_ids
+  value       = module.vpc.output_aws_vpc_private_subnet_ids
 
 }
 
 # Public Route Table IDs
-output "main_public_route_table_id" {
+output "main_output_aws_vpc_public_route_table_id" {
 
-  description = "Id of the public route table"
-  value       = module.vpc.public_route_table_id
+  value       = module.vpc.output_aws_vpc_public_route_table_id
 }
 
-#--------------------EC2 Output--------------------
+#----------Security Group ID----------
+# root output.tf depends on -> modules/X/outputs.tf
 
-#----------EC2 AMI ID----------
-output "aws_ami_id" {
-
-  description = "AWS EC2 AMI (OS Image)"
-  value       = module.ec2.aws_ami_id
-
+#---EC2 Root Output---
+output "main_output_ec2_id" {
+  
+  value = module.security_group.output_ec2_id
 }
 
-#----------EC2 Instance ID----------
-output "aws_instance_id" {
+#---RDS Root Output---
+output "main_output_rds_id" {
 
-  description = "Instance ID of the EC2"
-  value       = module.ec2.aws_instance_id
-
+  value = module.security_group.output_rds_id
+  
 }
 
-#----------EC2 Security Group ID----------
-output "ec2_security_group_id" {
+#----------IAM ID Output----------
+output "main_output_ec2_iam_instance_profile" {
 
-  value = module.ec2.ec2_security_group_id
+  value = module.iam.output_ec2_iam_instance_profile
 
 }
 
-#----------EC2 Public IP (Elastic IP)----------
-output "ec2_public_ip" {
+output "main_output_rds_monitoring_role_arn" {
 
-  value = module.ec2.ec2_public_ip
+  value = module.iam.output_rds_monitoring_role_arn
+  
+}
 
+#--------------------EC2 ID Output--------------------
+
+#---EC2 AMI ID---
+output "main_output_aws_ami_id" {
+
+  value       = module.ec2.output_aws_ami_id
+
+}
+
+# #---EC2 Instance ID---
+# output "main_output_aws_instance_id" {
+
+#   value       = module.ec2.output_aws_instance_id
+
+# }
+
+# #---EC2 Security Group ID---
+# output "main_output_ec2_security_group_id" {
+
+#   value = module.ec2.output_ec2_security_group_id
+
+# }
+
+#---EC2 Public IP (Elastic IP)---
+output "main_output_ec2_public_ip" {
+
+  value = module.ec2.output_ec2_public_ip
+
+}
+
+
+#--------------------SSM Parameter Store ID Output--------------------
+
+#---DB Name Output---
+output "main_output_db_name_arn" {
+
+  value = module.ssm_parameter_store.output_db_name_arn
+  
+}
+
+#---DB Username Output---
+output "main_output_db_username" {
+
+  value = module.ssm_parameter_store.output_db_username
+  
+}
+
+#----DB Password Output---
+output "main_output_db_password" {
+
+  value = module.ssm_parameter_store.output_db_password
+  
+}
+
+#---Rnadom Auto Generated Password output---
+output "main_output_random_db_passsword" {
+
+  value = module.ssm_parameter_store.output_random_db_password
+  
+}
+
+#--------------------RDS ID Output--------------------
+
+#---RDS Endpoint---
+output "main_output_rds_endpoint" {
+
+  value = module.rds.output_rds_endpoint
+  
+}
+
+#---RDS Database Name---
+output "main_output_rds_db_name" {
+
+  value = module.rds.output_rds_db_name
+  
+}
+
+#---RDS Port---
+output "main_output_rds_port" {
+
+  value = module.rds.output_rds_port
+}
+
+#----------Cloudfront ID----------
+output "main_output_cloudfront_distribution_id" {
+
+  value = module.cloudfront.output_cloudfront_distribution_id
+  
+}
+
+output "main_output_cloudfront_domain_url" {
+
+  value = module.cloudfront.output_cloudfront_domain_url
+  
 }

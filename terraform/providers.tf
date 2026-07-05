@@ -1,8 +1,10 @@
+# "required_providers" only takes source and version
 terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 6.0"
+      
     }
     random = {
       source  = "hashicorp/random"
@@ -25,4 +27,13 @@ provider "aws" {
     }
   }
 
+}
+
+# alias and region go in a SEPARATE provider block
+# Separate alias provider for WAF (must be us-east-1)
+provider "aws" {
+
+  alias = "us_east_1"
+  region = "us-east-1"
+  
 }
