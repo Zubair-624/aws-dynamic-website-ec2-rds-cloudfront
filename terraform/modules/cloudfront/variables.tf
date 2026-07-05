@@ -1,7 +1,13 @@
-#----------Project Name----------
+#---Project Name---
 variable "project_name" {
 
-    description = "Default project name that will be apply all resource"
+    type = string
+  
+}
+
+#---Fetch -> EC2 public IP---
+variable "fetch_output_ec2_public_ip" {
+
     type = string
   
 }
