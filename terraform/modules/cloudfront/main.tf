@@ -1,6 +1,8 @@
 #---Step 2: Get Started: Box---
 resource "aws_cloudfront_distribution" "main" {
 
+  provider = aws.us_east_1 
+
     comment = "${var.project_name}-Dynamic-Website-CDN"
     enabled = true 
 

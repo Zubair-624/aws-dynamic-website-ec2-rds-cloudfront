@@ -67,12 +67,12 @@ resource "aws_s3_object" "website_upload" {
 
     #---
     content_type = lookup(
-        local.website_file_path,
-        regex("\\.[^.]+$", each.value),
-        "application/octel-stream"
-    )
+    local.mime_types,
+    regex("\\.[^.]+$", each.value),
+    "application/octet-stream"
+)
 
-    storage_class = "Standard"
+    storage_class = "STANDARD"
 
     etag = filemd5("${path.module}/../website/${each.value}")
     #---

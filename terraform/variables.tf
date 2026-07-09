@@ -1,8 +1,8 @@
 #----------Root Project Name----------
 variable "root_project_name" {
 
-  type        = string
-  default     = "aws-dynamic-website-ec2-rds-cloudfront"
+  type    = string
+  default = "aws-dynamic-website-ec2-rds-cloudfront"
 
 }
 
@@ -20,8 +20,8 @@ variable "aws_region" {
 # VPC CIDR Block
 variable "root_aws_vpc_cidr_block" {
 
-  type        = string
-  default     = "10.0.0.0/16"
+  type    = string
+  default = "10.0.0.0/16"
 
 }
 
@@ -56,9 +56,9 @@ variable "root_azs" {
 #--------------------Ec2--------------------
 variable "ec2_instance_type" {
 
-  type = string
+  type    = string
   default = "t3.micro"
-  
+
 }
 
 #--------------------SSM Parameter Store--------------------
@@ -74,6 +74,20 @@ variable "root_db_name" {
 variable "root_db_username" {
 
   type = string
-  
+
 }
 
+
+#--------------------IAM OIDC--------------------
+
+#---AWS Account ID---
+variable "root_aws_account_id" {
+  type    = string
+  default = "688025747774"
+}
+
+#---GitHub Repo Name---
+variable "root_github_repo_name" {
+  type    = string
+  default = "aws-dynamic-website-ec2-rds-cloudfront"
+}

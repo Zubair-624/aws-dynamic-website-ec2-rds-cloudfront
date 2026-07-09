@@ -34,13 +34,13 @@ resource "aws_db_instance" "main_db" {
 
     # Settings sub option -> "Master username"
     # fetech form -> ssm_parameter_store
-    username = var.fetch_root_db_name
+    username = var.fetch_root_db_username
 
     # Settings sub section -> "Credentials Management"
     # Credentials Management → "Self managed"
     # We manage the password ourselves via SSM Parameter Store
     # so we do NOT want AWS to auto-manage it via Secrets 
-    manage_master_user_password = false # do NOt let AWS manage it
+    # manage_master_user_password = false # do NOt let AWS manage it
     password = var.fetch_root_db_random_password # comes from SSM module
 
     # Addition credentials settings
@@ -95,8 +95,8 @@ resource "aws_db_instance" "main_db" {
     # Retention period -> 7 days
     performance_insights_retention_period = 7
 
-    # AWS kms key
-    performance_insights_kms_key_id = "alias/aws/rds"
+    # # AWS kms key
+    # performance_insights_kms_key_id = "alias/aws/rds"
 
     #---Additional monitoring settings---
 
@@ -111,13 +111,13 @@ resource "aws_db_instance" "main_db" {
     enabled_cloudwatch_logs_exports = ["error", "general", "slowquery"]
 
     # Initial database name
-    db_name = var.fetch_root_db_username
+    db_name = var.fetch_root_db_name
 
     # Enable encryption (checkmark this)
     storage_encrypted = true 
 
-    # AWS KMS key
-    kms_key_id = "alias/aws/rds"
+    # # AWS KMS key
+    # kms_key_id = "alias/aws/rds"
 
     #-----Backup-----
 

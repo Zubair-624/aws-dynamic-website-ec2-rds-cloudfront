@@ -4,7 +4,7 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 6.0"
-      
+
     }
     random = {
       source  = "hashicorp/random"
@@ -33,7 +33,7 @@ provider "aws" {
 # Separate alias provider for WAF (must be us-east-1)
 provider "aws" {
 
-  alias = "us_east_1"
+  alias  = "us_east_1"
   region = "us-east-1"
-  
+
 }

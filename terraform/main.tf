@@ -28,7 +28,7 @@ module "security_group" {
   # fetch_ = do not need variabel
   fetch_output_aws_vpc_id = module.vpc.output_aws_vpc_id
 
-  
+
 
 }
 
@@ -39,7 +39,7 @@ module "iam" {
 
   project_name = var.root_project_name
 
-  
+
 }
 
 
@@ -66,7 +66,7 @@ module "ec2" {
 }
 
 #----------SSM Module (Secrets)----------
-module "ssm" {
+module "ssm_parameter_store" {
 
   source = "./modules/ssm_parameter_store"
 
@@ -96,12 +96,16 @@ module "cloudfront" {
 
   source = "./modules/cloudfront"
 
+  providers = {
+    aws.us_east_1 = aws.us_east_1
+  }
+
   project_name = var.root_project_name
 
   fetch_output_ec2_public_ip = module.ec2.output_ec2_public_ip
 
-  
-  
+
+
 }
 
 #----------RDS Module----------
@@ -115,7 +119,7 @@ module "rds" {
 
   fetch_root_db_username = var.root_db_username
 
-  fetch_root_db_random_password = module.ssm.output_random_db_password
+  fetch_root_db_random_password = module.ssm_parameter_store.output_random_db_password
 
   fetch_output_aws_vpc_private_subnet_id = module.vpc.output_aws_vpc_private_subnet_ids
 
