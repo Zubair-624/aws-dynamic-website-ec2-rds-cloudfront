@@ -26,3 +26,24 @@ output "output_aws_vpc_public_route_table_id" {
   
 }
 
+#---NAT Gateway ID Output---
+output "output_aws_vpc_nat_gateway_id" {
+
+    value = aws_nat_gateway.aws_vpc_nat.id
+  
+}
+
+#---NAT Gateway Public IP Output---
+output "output_aws_vpc_nat_eip" {
+
+    value = aws_eip.aws_vpc_nat_eip.public_ip
+  
+}
+
+#---Private Route Table Output---
+output "output_aws_vpc_private_route_table_id" {
+
+    value = aws_route_table.aws_vpc_private_rt.id 
+  
+}
+
