@@ -22,3 +22,10 @@ variable "fetch_output_ec2_public_ip" {
     type = string
   
 }
+
+#---Fetch -> S3 Bucket Regional Domain Name---
+variable "fetch_output_s3_bucket_regional_domain_name" {
+
+    type = string
+  
+}

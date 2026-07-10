@@ -153,3 +153,10 @@ output "main_output_cloudfront_domain_url" {
   value = module.cloudfront.output_cloudfront_domain_url
 
 }
+
+#----------IAM OIDC Output----------
+output "main_output_github_actions_role_arn" {
+
+  value = module.iam_oidc.output_github_actions_role_arn
+
+}

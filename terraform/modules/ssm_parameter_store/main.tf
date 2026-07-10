@@ -59,7 +59,7 @@ resource "aws_ssm_parameter" "rds_db_password" {
 
     type = "SecureString"
 
-    key_id = "alias/aws/rds"
+    key_id = "alias/aws/ssm"
 
     value = random_password.random_db_password.result
 

@@ -53,8 +53,6 @@ module "ec2" {
 
   project_name = var.root_project_name
 
-  fetch_output_aws_vpc_id = module.vpc.output_aws_vpc_id
-
   fetch_output_aws_public_subnet_id = module.vpc.output_aws_vpc_public_subnet_ids[0]
 
   ec2_instance_type = var.ec2_instance_type
@@ -104,7 +102,20 @@ module "cloudfront" {
 
   fetch_output_ec2_public_ip = module.ec2.output_ec2_public_ip
 
+  fetch_output_s3_bucket_regional_domain_name = module.s3.aws_s3_bucket_network_address
+}
 
+
+#----------IAM OIDC Module (GitHub Actions)----------
+module "iam_oidc" {
+
+  source = "./modules/iam_oidc"
+
+  project_name = var.root_project_name
+
+  aws_account_id = var.root_aws_account_id
+
+  github_repo_name = var.root_github_repo_name
 
 }
 

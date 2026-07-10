@@ -61,7 +61,7 @@ resource "aws_instance" "main" {
 
     # Configure storage: Box
     root_block_device {
-      volume_size = 80
+      volume_size = 20
       volume_type = "gp3"
       encrypted = true 
     }

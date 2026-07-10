@@ -25,15 +25,6 @@ output "output_ec2_public_ip" {
   
 }
 
-# #---EC2 Security Group ID---
-# # EC2 Security Group ID
-# # Used by the RDS module to allow database access
-# # connections only from our EC2 instance
-# output "output_ec2_security_group_id" {
 
-#     description = "ID of the EC2 security group"
-#     value = aws_security_group.ec2_sg.id
-  
-# }
 
 

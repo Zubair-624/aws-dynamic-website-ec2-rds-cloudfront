@@ -18,13 +18,13 @@ resource "aws_cloudfront_distribution" "main" {
 
     #---Step 3: Specify Origin: Box---
 
-    #-----Origin (Where CloudFront sends requests)-----
+    #-----Origin 1 (EC2 - Dynamic content: pages, DB-driven routes)-----
     # Origin = your EC2 server (Elastic IP, port 80)
-    #
     origin {
 
-      # the REAL EC2 server
-      domain_name = var.fetch_output_ec2_public_ip
+      # Raw IP wrapped in nip.io wildcard DNS —
+      # CloudFront's custom_origin_config requires a real domain name, not a bare IP
+      domain_name = "${replace(var.fetch_output_ec2_public_ip, ".", "-")}.nip.io"
 
     # origin_id = target_origin_id , need to match each other
       origin_id = "${var.project_name}-ec2-origin"
@@ -44,13 +44,21 @@ resource "aws_cloudfront_distribution" "main" {
 
     }
 
+    #-----Origin 2 (S3 - Publicly viewable user-uploaded content)-----
+    # Serves things like shared images that users uploaded through the app
+    origin {
+      domain_name = var.fetch_output_s3_bucket_regional_domain_name
+      origin_id                = "${var.project_name}-s3-origin"
+      origin_access_control_id = aws_cloudfront_origin_access_control.s3_oac.id
+    }
+
     #---Settings: Box---
 
     #---
     # Cache settings
     # select -> Customize cache settings
 
-    #---Default Cache Behavior---
+    #---Default Cache Behavior (EC2 - all pages, forms, DB-driven routes)---
     # TTL = 0 everywhere because this is a DYNAMIC website
     # Caching would show wrong/outdated data from the database
     default_cache_behavior {
@@ -104,6 +112,33 @@ resource "aws_cloudfront_distribution" "main" {
 
     }
 
+    #---Ordered Cache Behavior (S3 - user-uploaded public images)---
+    # ← IMPROVED: path changed from /static/* to /uploads/* — this bucket holds
+    # user-uploaded publicly viewable content, not build-time CSS/JS assets
+    ordered_cache_behavior {
+      path_pattern     = "/uploads/*"
+      target_origin_id = "${var.project_name}-s3-origin"
+
+      viewer_protocol_policy = "redirect-to-https"
+
+      allowed_methods = ["GET", "HEAD"]
+      cached_methods  = ["GET", "HEAD"]
+
+      forwarded_values {
+        cookies {
+          forward = "none"
+        }
+        query_string = false
+      }
+
+      # Uploaded images rarely change once uploaded — safe to cache
+      min_ttl     = 0
+      default_ttl = 86400
+      max_ttl     = 31536000
+
+      compress = true
+    }
+
     #----------SSL Certificate----------
     # Use CloudFront's default certificate
     # This gives you free HTTPS at xxxxx.cloudfront.net
@@ -130,6 +165,17 @@ resource "aws_cloudfront_distribution" "main" {
 
 #----------------------------------------------------------------------------------
 
+#-----Origin Access Control (for S3)-----
+# Required so CloudFront can securely sign requests to S3.
+# Without this, the S3 bucket policy's "AWS:SourceArn" condition has nothing valid to check against.
+resource "aws_cloudfront_origin_access_control" "s3_oac" {
+  provider = aws.us_east_1
+
+  name                              = "${var.project_name}-oac"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
 
 #-----Step 4: Enable security-----
 

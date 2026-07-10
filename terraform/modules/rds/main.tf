@@ -89,11 +89,9 @@ resource "aws_db_instance" "main_db" {
 
     #---Monitoring: Box---
 
-    # Performance Insights -> Checkmark -> Enable performace insights
-    performance_insights_enabled = true
-    
-    # Retention period -> 7 days
-    performance_insights_retention_period = 7
+    # Performance Insights -> db.t3.micro does NOT support this feature
+    # (requires db.t3.small or larger) — disabled to match your instance class
+    performance_insights_enabled = false
 
     # # AWS kms key
     # performance_insights_kms_key_id = "alias/aws/rds"
@@ -150,19 +148,5 @@ resource "aws_db_instance" "main_db" {
 
     # "skip_final_snapshot" and "final_snapshot_identifier" are not in the console, They are Terraform-only settings
     skip_final_snapshot = true 
-
-
-    
-
-
-    
-
-
-
-
-    
-    
-
-    
   
 }

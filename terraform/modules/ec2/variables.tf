@@ -6,13 +6,13 @@ variable "project_name" {
   
 }
 
-#---VPC ID---
-variable "fetch_output_aws_vpc_id" {
+# #---VPC ID---
+# variable "fetch_output_aws_vpc_id" {
 
-    description = "VPC ID will callup to the modules/vpc/outputs.tf"
-    type = string
+#     description = "VPC ID will callup to the modules/vpc/outputs.tf"
+#     type = string
   
-}
+# }
 
 #---Fetch -> EC2 security group---
 variable "fetch_output_ec2_security_group_id" {
