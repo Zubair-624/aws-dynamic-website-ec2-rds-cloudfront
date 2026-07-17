@@ -10,7 +10,7 @@ import requests
 
 #-----Config-----
 # CloudFront URL - update this after first terraform apply
-SITE_URL     = "https://d3r5h874znbukt.cloudfront.net"
+SITE_URL     = "https://dp2ywvug89663.cloudfront.net"
 HEALTH_URL   = f"{SITE_URL}/health"
 MAX_RETRIES  = 10
 RETRY_DELAY  = 15   # seconds between retries
